@@ -1,6 +1,15 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include <stdio.h>
+#include <cstdio>
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+bool writeToFile(ofstream *ofs, string s);
+
+bool saveMode = true;
 
 int main(int argc, char *argv[])
 {
@@ -14,5 +23,22 @@ int main(int argc, char *argv[])
     w.writeToDisplay(msg);
     w.writeToUsersList(msg);
 
+    ofstream dumpFile;
+    if (saveMode)
+    {
+        dumpFile.open("dump.txt", ios::trunc);
+        writeToFile(&dumpFile, "this is a test1");
+        writeToFile(&dumpFile, "this is a test2");
+        dumpFile.close();
+    }
+
     return a.exec();
 }
+
+bool writeToFile(ofstream *ofs, string s)
+{
+    *ofs << s << endl;
+    return true;
+}
+
+
